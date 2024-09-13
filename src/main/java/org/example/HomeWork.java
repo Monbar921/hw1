@@ -1,6 +1,7 @@
 package org.example;
 
 import java.util.function.Predicate;
+import java.util.stream.StreamSupport;
 
 /**
  * Сигнатуры методов в данном классе не менять
@@ -27,8 +28,8 @@ public class HomeWork {
      * @return количество узлов от 0 до N, где N позиция на которой первый раз условие вернуло fals
      */
     public <T> int partitionBy(Node<T> list, Predicate<T> pred) {
-        //TODO реализовать метод
-        return 0;
+        return (int) StreamSupport.stream(list.spliterator(), false)
+                .filter(pred).count();
     }
 
     /**
