@@ -22,6 +22,19 @@ class HomeWorkTest {
         assertEquals(3, homeWork.partitionBy(node, predicate));
     }
 
+    @Test
+    void partitionBy_lessThanFour_notSorted() {
+        Predicate<Integer> predicate = x -> x < 4;
+
+        Node<Integer> node = new Node<>(1);
+        node.add(2);
+        node.add(4);
+        node.add(3);
+        node.add(2);
+
+        assertEquals(2, homeWork.partitionBy(node, predicate));
+    }
+
 
     @Test
     void partitionBy_lessThanZero() {
@@ -37,6 +50,24 @@ class HomeWorkTest {
     }
 
     @Test
-    void findNthElement() {
+    void findNthElement_first() {
+        Node<Integer> node = new Node<>(1);
+        node.add(2);
+        node.add(3);
+        node.add(4);
+        node.add(5);
+
+        assertEquals(1, homeWork.findNthElement(node, 0));
+    }
+
+    @Test
+    void findNthElement_last() {
+        Node<Integer> node = new Node<>(1);
+        node.add(2);
+        node.add(3);
+        node.add(4);
+        node.add(5);
+
+        assertEquals(5, homeWork.findNthElement(node, 4));
     }
 }

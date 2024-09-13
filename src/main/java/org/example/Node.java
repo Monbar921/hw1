@@ -1,9 +1,13 @@
 package org.example;
 
+import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.experimental.Accessors;
 
 import java.util.Iterator;
+import java.util.stream.Stream;
+import java.util.stream.StreamSupport;
 
 
 /**
@@ -19,10 +23,14 @@ public class Node<T> implements Iterable<T> {
     private T value;
 
     private Node<T> next;
+    @Setter(AccessLevel.NONE)
+    @Accessors(fluent = true)
+    private int size;
 
     public Node(T value) {
         this.value = value;
         this.next = null;
+        this.size = 1;
     }
 
     public Node<T> add(T value) {
@@ -32,7 +40,13 @@ public class Node<T> implements Iterable<T> {
         }
         Node<T> newNode = new Node<>(value);
         emptyNode.setNext(newNode);
+
+        ++size;
         return newNode;
+    }
+
+    public Stream<T> stream() {
+        return StreamSupport.stream(this.spliterator(), false);
     }
 
     @Override

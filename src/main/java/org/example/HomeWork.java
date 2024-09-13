@@ -1,5 +1,8 @@
 package org.example;
 
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.function.Predicate;
 import java.util.stream.StreamSupport;
 
@@ -28,8 +31,10 @@ public class HomeWork {
      * @return количество узлов от 0 до N, где N позиция на которой первый раз условие вернуло fals
      */
     public <T> int partitionBy(Node<T> list, Predicate<T> pred) {
-        return (int) StreamSupport.stream(list.spliterator(), false)
-                .filter(pred).count();
+        if(list == null || pred == null){
+            throw new IllegalArgumentException();
+        }
+        return (int) list.stream().takeWhile(pred).count();
     }
 
     /**
@@ -42,6 +47,20 @@ public class HomeWork {
      * @return сам элемент
      */
     public <T> T findNthElement(Node<T> list, int n) {
-        return null;
+        AtomicInteger currentIndex = new AtomicInteger(0);
+
+        if(list == null){
+            throw new IllegalArgumentException();
+        }
+
+        if(n < 0 || n >= list.size()){
+            throw new IndexOutOfBoundsException();
+        }
+
+        Optional<T> element = list.stream()
+                .filter(e -> currentIndex.getAndIncrement() == n)
+                .findFirst();
+
+        return element.orElse(null);
     }
 }
